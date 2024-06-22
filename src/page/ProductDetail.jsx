@@ -1,9 +1,26 @@
-import React from 'react'
-import { getDetailProduct } from './utils/getDetailProduct'
-import './ProductDetail.css' // ProductDetail.css 파일을 불러옴
+import React, { useEffect, useState } from 'react'
+import './ProductDetail.css'
+import { getDetailProduct } from './../api/getProductAPI'
+import { NavLink, useParams } from 'react-router-dom'
 
-const ProductDetail = ({ productId }) => {
-    const detailProduct = getDetailProduct(productId)
+const ProductDetail = () => {
+    const { id } = useParams()
+    const [detailProduct, setDetailProduct] = useState()
+    const urlParams = new URLSearchParams(window.location.search)
+    const productId = urlParams.get('productId')
+
+    useEffect(() => {
+        const fetchProductDetail = async () => {
+            try {
+                const product = await getDetailProduct(productId)
+                setDetailProduct(product)
+            } catch (error) {
+                console.error('상세 상품 정보를 가져오는 중 에러 발생:', error)
+            }
+        }
+
+        fetchProductDetail()
+    }, [productId])
 
     if (!detailProduct) {
         return <div>Loading...</div>
@@ -14,7 +31,7 @@ const ProductDetail = ({ productId }) => {
             <h1>{detailProduct.title}</h1>
             <img src={detailProduct.image} alt={detailProduct.title} />
             <p>{detailProduct.description}</p>
-            <p className="price">Price: ${detailProduct.price}</p> {/* 클래스명을 추가하여 스타일을 적용 */}
+            <p className="price">Price: ${detailProduct.price}</p>
         </div>
     )
 }

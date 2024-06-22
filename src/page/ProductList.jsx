@@ -1,7 +1,7 @@
 // main.jsx
 import React, { useEffect, useState } from 'react'
 import './ProductList.css'
-import { getProductList } from '@/api/getProductAPI'
+import { getProductList } from './../api/getProductAPI'
 
 export default function ProductList() {
     const [productList, setProductList] = useState([])
@@ -19,8 +19,7 @@ export default function ProductList() {
 
         fetchProducts()
     }, [])
-    const handleClickProduct = (e) => {
-        const productId = e.target.dataset.productId
+    const handleClickProduct = (productId) => {
         window.location.href = `/detailproduct?productId=${productId}`
     }
     return (
@@ -29,7 +28,7 @@ export default function ProductList() {
             <div className="product-list">
                 {productList.map((product) => (
                     <div key={product.id} className="product-card">
-                        <img src={product.image} alt={product.title} onClick={handleClickProduct} />
+                        <img src={product.image} alt={product.title} onClick={handleClickProduct(product.id)} />
                         <div>
                             <h2>{product.title}</h2>
                             <p>{product.price}</p>
