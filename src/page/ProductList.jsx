@@ -1,11 +1,11 @@
-// main.jsx
 import React, { useEffect, useState } from 'react'
 import './ProductList.css'
 import { getProductList } from './../api/getProductAPI'
+import { useNavigate } from 'react-router-dom'
 
 export default function ProductList() {
     const [productList, setProductList] = useState([])
-    console.log(productList)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -19,16 +19,18 @@ export default function ProductList() {
 
         fetchProducts()
     }, [])
+
     const handleClickProduct = (productId) => {
-        window.location.href = `/detailproduct?productId=${productId}`
+        navigate(`/products/${productId}`)
     }
+
     return (
         <div>
             <h1>상품 목록</h1>
             <div className="product-list">
                 {productList.map((product) => (
                     <div key={product.id} className="product-card">
-                        <img src={product.image} alt={product.title} onClick={handleClickProduct(product.id)} />
+                        <img src={product.image} alt={product.title} onClick={() => handleClickProduct(product.id)} />
                         <div>
                             <h2>{product.title}</h2>
                             <p>{product.price}</p>

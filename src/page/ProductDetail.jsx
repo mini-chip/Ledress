@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import './ProductDetail.css'
 import { getDetailProduct } from './../api/getProductAPI'
-import { NavLink, useParams } from 'react-router-dom'
 
 const ProductDetail = () => {
-    const { id } = useParams()
-    const [detailProduct, setDetailProduct] = useState()
-    const urlParams = new URLSearchParams(window.location.search)
-    const productId = urlParams.get('productId')
+    const { productId } = useParams()
+    const [detailProduct, setDetailProduct] = useState(null)
 
     useEffect(() => {
         const fetchProductDetail = async () => {

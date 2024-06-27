@@ -10,8 +10,10 @@ export default function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<ProductList />} />
-                <Route path="/detailproduct" element={<ProductDetail />} />
+                <Route path="/" element={<Navigate to="/products" />} />
+                {/* /*기본 경로를 /products로 리디렉션*/}
+                <Route path="/products" element={<ProductList />} />
+                <Route path="/:productId" element={<ProductDetail />} />
             </Routes>
         </Router>
     )
