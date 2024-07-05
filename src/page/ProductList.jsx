@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ProductList.css'
 import { getProductList } from './../api/getProductAPI'
 import { Link } from 'react-router-dom'
@@ -7,18 +7,18 @@ export default function ProductList() {
     const [productList, setProductList] = useState([])
     const [sortOrder, setSortOrder] = useState('reviewOrder')
 
-    const fetchProducts = async () => {
-        try {
-            const productList = await getProductList()
-            setProductList(productList)
-        } catch (error) {
-            console.error('상품 목록을 가져오는 중 에러 발생:', error)
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const productList = await getProductList()
+                setProductList(productList)
+            } catch (error) {
+                console.error('상품 목록을 가져오는 중 에러 발생:', error)
+            }
         }
-    }
 
-    if (productList.length === 0) {
         fetchProducts()
-    }
+    }, [])
 
     const sortedProductList = () => {
         if (sortOrder === 'reviewOrder') {
@@ -35,6 +35,9 @@ export default function ProductList() {
 
     return (
         <div>
+            <header>
+                <button>장바구니</button>
+            </header>
             <h1>상품 목록</h1>
             <label htmlFor="sort">정렬 기준: </label>
             <select id="sort" className="outline-none" value={sortOrder} onChange={handleSelected}>
