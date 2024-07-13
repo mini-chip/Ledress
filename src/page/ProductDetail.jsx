@@ -2,13 +2,13 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import './ProductDetail.css'
 import { getDetailProduct } from './../api/getProductAPI'
-import { CartProduct } from './CartProduct'
+import { CartContext } from './../context/CartContext'
 
 const ProductDetail = () => {
     const { productId } = useParams()
     const [detailProduct, setDetailProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
-    const { addToCart } = useContext(CartProduct)
+    const { addToCart } = useContext(CartContext)
 
     useEffect(() => {
         const fetchProductDetail = async () => {

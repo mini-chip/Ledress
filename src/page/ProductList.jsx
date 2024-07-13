@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './ProductList.css'
 import { getProductList } from './../api/getProductAPI'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function ProductList() {
     const [productList, setProductList] = useState([])
     const [sortOrder, setSortOrder] = useState('reviewOrder')
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -20,39 +21,38 @@ export default function ProductList() {
         fetchProducts()
     }, [])
 
-    const sortedProductList = () => {
-        if (sortOrder === 'reviewOrder') {
-            return [...productList].sort((a, b) => b.rating.rate - a.rating.rate)
-        } else if (sortOrder === 'descendingOrder') {
-            return [...productList].sort((a, b) => b.price - a.price)
-        }
-        return productList
-    }
-
     const handleSelected = (e) => {
         setSortOrder(e.target.value)
     }
 
+    const sortProducts = (products, order) => {
+        if (order === 'reviewOrder') {
+            return [...products].sort((a, b) => b.rating.rate - a.rating.rate)
+        } else if (order === 'descendingOrder') {
+            return [...products].sort((a, b) => b.price - a.price)
+        }
+        return products
+    }
+
     return (
         <div>
-            <header>
-                <button>장바구니</button>
-            </header>
             <h1>상품 목록</h1>
             <label htmlFor="sort">정렬 기준: </label>
             <select id="sort" className="outline-none" value={sortOrder} onChange={handleSelected}>
                 <option value="reviewOrder">평점순</option>
                 <option value="descendingOrder">높은 가격순</option>
             </select>
+            <Link to="/cart" className="cart-link">
+                장바구니로 이동
+            </Link>
             <div className="product-list">
-                {sortedProductList().map((product) => (
+                {sortProducts(productList, sortOrder).map((product) => (
                     <li key={product.id} className="product-card">
                         <Link to={`/products/${product.id}`}>
                             <img src={product.image} alt={product.title} />
                             <div>
                                 <h2>{product.title}</h2>
-                                <p>가격:{product.price}$</p>
-                                <p>평점:{product.rating.rate}</p>
+                                <p>{product.price}</p>
                             </div>
                         </Link>
                     </li>
