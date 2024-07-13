@@ -2,13 +2,13 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import './ProductDetail.css'
 import { getDetailProduct } from './../api/getProductAPI'
-import { CartProduct } from './../context/CartProduct'
+import { CartProduct } from './CartProduct'
 
 const ProductDetail = () => {
     const { productId } = useParams()
     const [detailProduct, setDetailProduct] = useState(null)
-    const [quantity, setQuantity] = useState(1) // 수량 상태 추가
-    const { addToCart } = useContext(CartProduct) // CartContext 사용
+    const [quantity, setQuantity] = useState(1)
+    const { addToCart } = useContext(CartProduct)
 
     useEffect(() => {
         const fetchProductDetail = async () => {
@@ -40,7 +40,7 @@ const ProductDetail = () => {
         return <div>Loading...</div>
     }
 
-    const totalPrice = detailProduct.price * quantity // 총 가격 계산
+    const totalPrice = detailProduct.price * quantity
 
     return (
         <div className="product-detail-container">
@@ -53,11 +53,10 @@ const ProductDetail = () => {
                 <span>{quantity}</span>
                 <button onClick={increaseQuantity}>+</button>
             </div>
-            <p className="total-price">Total Price: ${totalPrice.toFixed(2)}</p> {/* 총 가격 표시 */}
+            <p className="total-price">Total Price: ${totalPrice.toFixed(2)}</p>
             <button className="add-to-cart" onClick={handleAddToCart}>
                 장바구니에 담기
-            </button>{' '}
-            {/* 장바구니 버튼 추가 */}
+            </button>
         </div>
     )
 }
