@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './ProductList.css'
 import { getProductList } from './../api/getProductAPI'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function ProductList() {
     const [productList, setProductList] = useState([])
     const [sortOrder, setSortOrder] = useState('reviewOrder')
-    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -14,7 +13,7 @@ export default function ProductList() {
                 const productList = await getProductList()
                 setProductList(productList)
             } catch (error) {
-                console.error('상품 목록을 가져오는 중 에러 발생:', error)
+                alert('상품 목록을 가져오는 중 에러 발생:', error)
             }
         }
 
@@ -26,12 +25,13 @@ export default function ProductList() {
     }
 
     const sortProducts = (products, order) => {
+        let sortedProducts = [...products]
         if (order === 'reviewOrder') {
-            return [...products].sort((a, b) => b.rating.rate - a.rating.rate)
+            sortedProducts.sort((a, b) => b.rating.rate - a.rating.rate)
         } else if (order === 'descendingOrder') {
-            return [...products].sort((a, b) => b.price - a.price)
+            sortedProducts.sort((a, b) => b.price - a.price)
         }
-        return products
+        return sortedProducts
     }
 
     return (

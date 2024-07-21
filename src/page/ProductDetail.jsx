@@ -16,7 +16,7 @@ const ProductDetail = () => {
                 const product = await getDetailProduct(productId)
                 setDetailProduct(product)
             } catch (error) {
-                console.error('상세 상품 정보를 가져오는 중 에러 발생:', error)
+                alert('상세 상품 정보를 가져오는 중 에러 발생:', error)
             }
         }
 
