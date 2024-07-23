@@ -7,11 +7,9 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = (product, quantity) => {
         setCart((prevCart) => {
-            const existingProductIndex = prevCart.findindex((item) => item.product.id === product.id)
-            if (existingProductIndex !== -1) {
-                const updatedCart = [...prevCart]
-                updatedCart[existingProductIndex].quantity += quantity
-                return updatedCart
+            const existingProductIndex = prevCart.find((item) => item.product.id === product.id)
+            if (existingProductIndex) {
+                return item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
             } else {
                 return [...prevCart, { product, quantity }]
             }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import './ProductDetail.css'
 import { getDetailProduct } from './../api/getProductAPI'
 import { CartContext } from './../context/CartContext'
@@ -9,6 +9,7 @@ const ProductDetail = () => {
     const [detailProduct, setDetailProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
     const { addToCart } = useContext(CartContext)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchProductDetail = async () => {
@@ -34,6 +35,7 @@ const ProductDetail = () => {
     const handleAddToCart = () => {
         addToCart(detailProduct, quantity)
         alert('장바구니에 담겼습니다!')
+        navigate('/cart')
     }
 
     if (!detailProduct) {
