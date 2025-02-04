@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './ProductList.css'
-import { getProductList } from '../../api/getProductAPI'
+import { getProductList } from 'src/api/getProductAPI'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function ProductList() {
