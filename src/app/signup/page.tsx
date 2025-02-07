@@ -3,14 +3,23 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
-
+const supabase = createClient(supabaseUrl, supabaseKey)
 import Image from 'next/image'
 import { useState } from 'react'
 
-export default function SigInPage() {
+export default function SignUpPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [nickname, setNickname] = useState('')
+
+    const signUpNewUser = async (e) => {
+        e.preventDefault()
+        const { data, error } = await supabase.auth.signUp({
+            email: 'example@email.com',
+            password: 'example-password',
+        })
+        console.log('signup: ', { data: data, error: error })
+    }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
